@@ -1,0 +1,9 @@
+{
+  "server": {
+    "PORT": "2000"
+  },
+  "client": {
+    "serverURL": "192.168.5.100:2000",
+    "protocol": "ws://"
+  }
+}

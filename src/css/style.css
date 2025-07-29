@@ -1,0 +1,84 @@
+* {
+    border: 0;
+    padding: 0;
+    margin: 0;
+
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    box-sizing: border-box;
+}
+
+body {
+    background-color: gray;
+}
+
+.my, .previou, .next, .next-next {
+    display: flex;
+    justify-content: space-around;
+    position: absolute;
+    border-radius: 0.5vw;
+    border: 0.5vw solid yellow;
+    background-color: white;
+}
+
+.my {
+    width: 80vw;
+    height: 15vh;
+    left: 10%;
+    bottom: 5%;
+}
+.previou {
+    width: 10vw;
+    height: 15vh;
+    left: 5%;
+    bottom: 50%;
+}
+.next-next {
+    width: 10vw;
+    height: 15vh;
+    left: 50%;
+    top: 5%;
+    transform: translateX(-50%);
+}
+.next {
+    width: 10vw;
+    height: 15vh;
+    right: 5%;
+    bottom: 50%;
+}
+
+.my > div {
+    display: flex;
+    justify-content: center;
+    border: 0.2vw solid green;
+    border-radius: 0.2vw;
+    height: 100%;
+    width: calc(100% / 14);
+}
+
+.userState{
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    display: flex;
+    justify-content: center;
+    background-color: green;
+    border-radius: 1vw;
+    width: 15vw;
+    height: 5vw;
+    transform: translate(-50%,-50%);
+}
+
+.nowCardValue{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 10vw;
+    background-color: blue;
+}

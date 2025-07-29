@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>麻将客户端</title>
+    <script src="../js/style.js"></script>
+    <script>
+        let serverURL
+        let protocol
+
+        async function getConfig() {
+            const res = await fetch("../Config/config.json")
+            const data = await res.json()
+            serverURL = data.client.serverURL
+            protocol = data.client.protocol
+        }
+
+        async function init() {
+            await getConfig()
+            await new Promise(resolve => {
+                if (document.readyState === "loading") {
+                    document.addEventListener("DOMContentLoaded", resolve)
+                } else {
+                    resolve()
+                }
+            })
+
+            direction() // 自定义屏幕方向调整
+
+            const my = document.getElementById('my')
+
+            // 要求用户输入 ID
+            function setID() {
+                window.id = prompt('请输入id')
+                if (!window.id || window.id.trim() === '') return setID()
+            }
+            setID()
+
+            let ws = new WebSocket(`${protocol}${serverURL}`)
+
+            // 出牌处理函数：点击牌时发送给服务器
+            function clickHandler(e) {
+                if (e.target !== e.currentTarget) {
+                    ws.send(JSON.stringify({
+                        type: 'playCard',
+                        content: e.target.textContent,
+                        userId: window.id
+                    }))
+                    // 不操作 DOM 或移除监听，等待服务器推送刷新
+                    console.log('发送出牌请求:', e.target.textContent)
+                }
+            }
+
+            ws.onopen = () => {
+                console.log('已连接服务器')
+                ws.send(JSON.stringify({ type: 'register', id: window.id }))
+            }
+
+            ws.onerror = error => {
+                console.error('WebSocket错误:', error)
+                alert('连接服务器失败: ' + error.message)
+            }
+
+            ws.onmessage = message => {
+                const msg = JSON.parse(message.data)
+                switch (msg.type) {
+                    case 'userState':
+                        document.getElementById('userState').textContent = msg.content
+                        break
+                    case 'banker':
+                        alert(`庄家是 ${msg.content}`)
+                        break
+                    case 'myCard':
+                        my.innerHTML = ''
+                        msg.content.forEach(card => {
+                            const cardDiv = document.createElement('div')
+                            cardDiv.textContent = card
+                            my.appendChild(cardDiv)
+                        })
+                        break
+                    case 'readyPlay':
+                        alert('到你出牌了')
+                        break
+                    case 'nowCardValue':
+                        document.getElementById('nowCardValue').textContent = `当前牌数：${msg.content}`
+                        break
+                }
+            }
+
+            // 始终绑定点击监听
+            my.addEventListener('click', clickHandler)
+        }
+
+        init()
+    </script>
+</head>
+<body>
+
+<!-- 手牌区 -->
+<div class="my" id="my"></div>
+<!-- 状态信息 -->
+<div id="userState" class="userState"></div>
+<div class="nowCardValue" id="nowCardValue"></div>
+<!-- 其他玩家区域 -->
+<div class="previou">上家</div>
+<div class="next">下家</div>
+<div class="next-next">对家</div>
+
+</body>
+</html>
