@@ -68,7 +68,8 @@
 ```json
 {
   "server": {
-    "PORT": "2000"
+    "PORT": 2000,
+    "checkConnect": false
   },
   "client": {
     "serverURL": "192.168.5.100:2000",
@@ -76,21 +77,18 @@
   }
 }
 ```
-🔧 server 对象
+server <br>
 PORT
+服务器监听的端口号，客户端通过该端口连接服务器 <br>
+&nbsp;&nbsp;&nbsp;&nbsp;示例：2000 <br>
+checkConnect
 说明：服务器监听的端口号，客户端通过该端口连接服务器 <br>
-&nbsp;&nbsp;&nbsp;&nbsp;示例："2000"
+&nbsp;&nbsp;&nbsp;&nbsp;示例：2000
 
-🌐 client 对象
-serverURL
-说明：服务器的地址（含端口），客户端会连接此地址。<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示例："192.168.5.100:2000"
-
+client <br>
+serverURL <br>
+服务器的地址（含端口），客户端会连接此地址。<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示例："192.168.5.100:2000" <br>
 protocol <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;说明：通信协议前缀 <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"ws://"：使用 WebSocket 明文连接(注意⚠️目前代码逻辑写死了只支持ws)
-
-📌 注意事项
-PORT 为字符串格式
-
-serverURL 和 protocol 会拼接成完整地址

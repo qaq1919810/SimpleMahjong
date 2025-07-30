@@ -40,12 +40,6 @@ function playGame(cards, userIDMap) {
                 const handCards = userNowCards.get(userId) || []
                 const handMsg = JSON.stringify({ type: "myCard", content: handCards })
                 socket.send(handMsg)
-                // 判断是否和牌
-                if(isWin(handCards,tileOrder)){
-                    console.log(`${userId}和牌,游戏结束`)
-                }else {
-                    console.log("无人和牌")
-                }
             }
         }
     }, 500)
@@ -115,6 +109,13 @@ function cardAdd(userId, socket, num = 1) {
     console.log(`发给用户 ${userId} 的牌`, cards)
     console.log(`用户 ${userId}，剩余牌：`, userNowCards.get(userId))
     console.log('剩余牌数:', readyCards.length)
+    // 判断是否和牌
+    const handCards = userNowCards.get(userId) || []
+    if(isWin(handCards,tileOrder)){
+        console.log(`${userId}和牌,游戏结束`)
+    }else {
+        console.log("无人和牌")
+    }
 }
 
 /**

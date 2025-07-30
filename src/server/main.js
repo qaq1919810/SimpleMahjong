@@ -1,8 +1,8 @@
 const WebSocket = require("ws")
 const fs = require("node:fs")
 // 导入开始游戏函数
-const { playGame } = require("./game")
-const { sendSocketObj } = require("./game")
+const {playGame} = require("./game")
+const {sendSocketObj} = require("./game")
 
 // 存储牌
 const cards = JSON.parse(fs.readFileSync("../Config/cards.json", "utf-8"))
@@ -15,7 +15,7 @@ const userIDMap = new Map()
 const userIDMapReverse = new Map()
 
 // noinspection JSUnresolvedReference
-const ws = new WebSocket.Server({ port: PORT }, () => {
+const ws = new WebSocket.Server({port: PORT}, () => {
     console.log(`服务已启用,端口为${PORT}`)
 })
 
@@ -38,7 +38,7 @@ ws.on("connection", socket => {
                 userIDMapReverse.set(socket, msg.id)
                 getUserIDAll()
                 // 传输对象到game.js
-                sendSocketObj(socket, userIDMap,userIDMapReverse)
+                sendSocketObj(socket, userIDMap, userIDMapReverse)
                 break
         }
     })
@@ -118,7 +118,9 @@ function getUserIDAll() {
     }
 }
 
-// 测试用用户连接状态用
-// setInterval(() => {
-//     getUserIDAll()
-// }, 1000)
+const checkConnect = JSON.parse(fs.readFileSync("../Config/config.json", "utf-8")).server.checkConnect
+if (checkConnect) {
+    setInterval(() => {
+        getUserIDAll()
+    }, 1000)
+}
