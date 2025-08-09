@@ -1,7 +1,6 @@
 // 判断是否和牌
 function isWin(cards, tileOrder) {
     let nums = cards.map(c => tileOrder.get(c)).sort((a, b) => a - b)
-
     // 先判断全对子情况
     if (checkAllPairs(nums)) return true
 

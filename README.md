@@ -24,10 +24,10 @@
    具体说明详见：[config.md](./src/Config/config.md)
 
 2. **运行后端服务器**  
-   使用 Node.js 执行主程序：
+   使用 Node.js 执行主程序：[node.js](./src/server/main.js)
 
    ```bash
    node main.js
    ```
 3. **打开前端页面**  
-   index.html
+   [index.html](./src/html/index.html)
